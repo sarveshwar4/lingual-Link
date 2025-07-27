@@ -41,5 +41,19 @@ class ConnectionRepository {
       throw new Error("Error deleting connection: " + error.message);
     }
   }
+
+  async getAll(userId){
+    try {
+      const connections = await Connection.find({
+        $or: [
+          { fromUserId: userId},
+          { toUserId: userId}
+        ]
+      }).select('fromUserId toUserId');
+      return connections;
+    } catch (error) {
+      
+    }
+  }
 }
 module.exports = ConnectionRepository;

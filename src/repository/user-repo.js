@@ -53,6 +53,32 @@ class UserRepository {
       throw new Error('Error deleting user: ' + error.message);
     }
   }
-}
+
+  async getUserSuggestion(native, learning, excludeIds) {
+    try {
+
+      const response = await User.find({
+        $or: [
+          {
+            $and: [
+              { native: learning },
+              { learning: native },
+              { _id: { $nin: excludeIds } }
+            ]
+          },
+          {
+             native: learning,
+            _id: { $nin: excludeIds }
+          }
+        ]
+      }).select('_id name email native');
+           
+      return response;
+    } catch (error) {
+      console.error("Error in getUserSuggestion:", error);
+      throw new Error("Something went wrong during fetching the user suggestions");
+    }
+  }
+}  
 
 module.exports = UserRepository;
