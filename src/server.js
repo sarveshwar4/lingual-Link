@@ -12,7 +12,7 @@ const setUpAndStartServer = ()=>{
 
     app.use('/api', apiRouter);
     app.listen(PORT, () => {
-        connectToDatabase().then((data)=>console.log("hello")).catch((error)=>console.log("hii"));
+        connectToDatabase();
         console.log(`Connected to MongoDB`);
         console.log(`Server is running on port ${PORT}`);
     });

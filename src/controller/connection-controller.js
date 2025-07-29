@@ -4,8 +4,7 @@ const connectionService = new ConnectionService();
 
 const createConnection = async(req, res)=>{
     try{
-        const { fromUserId, toUserId, status } = req.params;
-        console.log(fromUserId, toUserId, status);
+        const { fromUserId, toUserId, status} = req.params;
         const response = await connectionService.sendConnectionRequest(fromUserId, toUserId, status);
         return res.status(201).json({
             data:response,
@@ -45,7 +44,28 @@ const reviewConnection = async(req, res)=>{
 }
 
 
+const getAllConnection = async(req, res)=>{
+    try{
+        const {userId} = req.params;
+        const response = await connectionService.getALLConnection(userId);
+        return res.status(201).json({
+            data:response,
+            message: `Connection request ${response.status} successfully`,
+            success: true,
+            err:{}
+        });
+    }catch(error){
+        res.status(500).json({
+            data:{},
+            message: "Error creating connection",
+            success: false,
+            err:error.message
+        });
+    }
+}
+
 module.exports = {
     createConnection,
-    reviewConnection
+    reviewConnection,
+    getAllConnection
 }

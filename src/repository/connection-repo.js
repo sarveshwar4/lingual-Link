@@ -55,5 +55,22 @@ class ConnectionRepository {
       
     }
   }
+  async getAllConnection(userId) {
+    try {
+      const connections = await Connection.find({
+        $or: [
+          { fromUserId: userId},
+          { toUserId: userId,}
+        ],
+        status: "ACCEPTED"
+      });
+  
+      return connections;
+    } catch (error) {
+      console.error("Error in getAllConnection:", error);
+      throw error;
+    }
+  }
+  
 }
 module.exports = ConnectionRepository;

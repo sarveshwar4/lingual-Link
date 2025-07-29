@@ -67,6 +67,16 @@ class ConnectionService {
       throw error;
     }
   }
+
+  async getALLConnection(userId){
+        try {
+          const connections = await this.connectionRepository.getAllConnection(userId);
+          return connections;
+        } catch (error) {
+          throw error;
+        }
+  }
+
 }
 
 module.exports = ConnectionService;
