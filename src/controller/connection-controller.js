@@ -64,8 +64,30 @@ const getAllConnection = async(req, res)=>{
     }
 }
 
+const getPendingConnection = async(req, res)=>{
+    try {
+        const {userId} = req.params;
+        const response = await connectionService.getWhomSentConnectionRequest(userId);
+        return res.status(200).json({
+            data: response,
+            message: "Pending connections fetched successfully",
+            success: true,
+            err: {}
+        });
+    } catch (error) {
+        res.status(500).json({
+            data:{},
+            message: "Error fetching pending connections",
+            success: false,
+            err:error.message
+        });
+        
+    }
+}
+
 module.exports = {
     createConnection,
     reviewConnection,
-    getAllConnection
+    getAllConnection,
+    getPendingConnection
 }

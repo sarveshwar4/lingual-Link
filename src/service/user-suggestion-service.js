@@ -22,6 +22,9 @@ class UserSuggestionService{
           const connectedUserIds = Array.from(mySet);
           const excludeIds = connectedUserIds.length > 0 ? connectedUserIds : [userId];
           const user  = await this.userRepository.getUserSuggestion(native, learning,excludeIds);
+          if(user.length === 0){
+            throw new Error("No user found");
+          }
           return user;
         }catch(error){
         throw error;

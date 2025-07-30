@@ -58,22 +58,29 @@ class UserRepository {
     try {
 
       const response = await User.find({
-        $or: [
-          {
+        // $or: [
+          // {
             $and: [
               { native: learning },
               { learning: native },
               { _id: { $nin: excludeIds } }
             ]
           },
-          {
-             native: learning,
-            _id: { $nin: excludeIds }
-          }
-        ]
-      }).select('_id name email native');
-           
-      return response;
+      //     {
+      //       //  native: learning,
+      //       // _id: { $nin: excludeIds }
+      //     // }
+      //   // ]
+      // }
+    ).select('_id name email native learning');
+
+    const looseSuggestion = await User.find({
+          native: learning,
+         _id: { $nin: excludeIds }
+    }).select('_id name email native learning');
+    
+      const finalResponse = [...response, ...looseSuggestion];
+      return finalResponse;
     } catch (error) {
       console.error("Error in getUserSuggestion:", error);
       throw new Error("Something went wrong during fetching the user suggestions");

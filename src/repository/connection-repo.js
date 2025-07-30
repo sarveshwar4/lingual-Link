@@ -71,6 +71,20 @@ class ConnectionRepository {
       throw error;
     }
   }
+
+
+  async getpendingConnections(userId){
+    try {
+      const response = await Connection.find({
+        toUserId: userId,
+        status: "PENDING"
+      }).populate('fromUserId', 'firstName lastName email photoUrl ');
+      return response;
+    } catch (error) {
+      console.log("Something went wrong in repo layer");
+      throw error;
+    }
+  }
   
 }
 module.exports = ConnectionRepository;

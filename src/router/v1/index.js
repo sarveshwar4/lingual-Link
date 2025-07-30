@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {createUser, getUser, updateUser, deleteUser} = require('../../controller/user-controller'); 
-const {createConnection, reviewConnection, getAllConnection} = require('../../controller/connection-controller');
+const {createConnection, reviewConnection, getAllConnection, getPendingConnection} = require('../../controller/connection-controller');
 
 const {friendsSuggestions} = require('../../controller/suggestion-controller');
 
@@ -15,6 +15,7 @@ router.delete('/user/delete/:id', deleteUser);
 router.post('/connections/:fromUserId/:toUserId/:status',createConnection);
 router.patch('/connections/review/:userId/:connectionId/:status', reviewConnection);
 router.get('/view/connections',getAllConnection);
+router.get('/pending/connections/:userId', getPendingConnection);
 
 router.get('/friend/suggestions/:userId', friendsSuggestions);
 

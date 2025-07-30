@@ -9,6 +9,9 @@ class ConnectionService {
   }
   async sendConnectionRequest(fromUserId, toUserId, status) {
     try {
+       if (!["PENDING", "IGNORED"].includes(status)) {
+        throw new Error("Invalid status for connection request");
+      }
       if (fromUserId === toUserId) {
         throw new Error("You cannot send a connection request to yourself");
       }
@@ -75,6 +78,19 @@ class ConnectionService {
         } catch (error) {
           throw error;
         }
+  }
+  async getWhomSentConnectionRequest(userId) {
+       try {
+        const pendingConnections = await this.connectionRepository.getpendingConnections(userId);
+        if (!pendingConnections || pendingConnections.length === 0) {
+          return [];
+        }
+       const pendingConnectionsRequest =  pendingConnections.map((connection)=>(connection.fromUserId));
+        return pendingConnectionsRequest;
+       } catch (error) {
+        console.log("Something went wrong in service layer");
+        throw error;
+       }
   }
 
 }
